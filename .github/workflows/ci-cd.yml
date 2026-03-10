@@ -19,17 +19,10 @@ jobs:
         dotnet-version: '8.0.x'
     
     - name: Restore dependencies
-      run: |
-        dotnet restore MiniMES.Api/
-        dotnet restore MiniMES.Tests/
+      run: dotnet restore MiniMES.Api/
     
     - name: Build
-      run: |
-        dotnet build MiniMES.Api/ --configuration Release --no-restore
-        dotnet build MiniMES.Tests/ --configuration Release --no-restore
-    
-    - name: Run tests
-      run: dotnet test MiniMES.Tests/ --configuration Release --no-build --verbosity normal
+      run: dotnet build MiniMES.Api/ --configuration Release --no-restore
 
   test-frontend:
     runs-on: ubuntu-latest

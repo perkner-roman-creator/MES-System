@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MiniMES.Tests.Services
 {
-    public class WorkOrderServiceTests
+    public class WorkOrderServiceIntegrationTests
     {
         private MesDbContext CreateInMemoryContext()
         {
