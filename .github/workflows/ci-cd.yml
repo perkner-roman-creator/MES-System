@@ -19,10 +19,14 @@ jobs:
         dotnet-version: '8.0.x'
     
     - name: Restore dependencies
-      run: dotnet restore MiniMES.Api/
+      run: |
+        dotnet restore MiniMES.Api/
+        dotnet restore MiniMES.Tests/
     
     - name: Build
-      run: dotnet build MiniMES.Api/ --configuration Release --no-restore
+      run: |
+        dotnet build MiniMES.Api/ --configuration Release --no-restore
+        dotnet build MiniMES.Tests/ --configuration Release --no-restore
     
     - name: Run tests
       run: dotnet test MiniMES.Tests/ --configuration Release --no-build --verbosity normal
@@ -95,12 +99,14 @@ jobs:
 
   security-scan:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     
     steps:
     - uses: actions/checkout@v3
     
     - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.18.0
       with:
         scan-type: 'fs'
         scan-ref: '.'
