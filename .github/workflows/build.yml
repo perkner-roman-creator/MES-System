@@ -1,0 +1,72 @@
+name: Mini-MES Build & Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore MiniMES.Api/
+    
+    - name: Build
+      run: dotnet build MiniMES.Api/ --configuration Release --no-restore
+    
+    - name: Run Tests
+      run: dotnet test MiniMES.Tests/ --configuration Release --no-build --verbosity normal
+    
+    - name: Build Docker image
+      run: docker build -f MiniMES.Api/Dockerfile -t minimes-api:${{ github.sha }} MiniMES.Api/
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: MiniMES.Client/package-lock.json
+    
+    - name: Install dependencies
+      run: cd MiniMES.Client && npm ci
+    
+    - name: Build
+      run: cd MiniMES.Client && npm run build
+    
+    - name: Build Docker image
+      run: docker build -f MiniMES.Client/Dockerfile -t minimes-client:${{ github.sha }} MiniMES.Client/
+
+  integration:
+    needs: [build, frontend]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Start services with docker-compose
+      run: docker-compose up -d
+    
+    - name: Wait for services
+      run: sleep 10
+    
+    - name: Test API health
+      run: curl http://localhost:5000/health
+    
+    - name: Stop services
+      run: docker-compose down

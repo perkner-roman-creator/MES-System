@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # .NET Backend
+  minimes-api:
+    build:
+      context: ./MiniMES.Api
+      dockerfile: Dockerfile
+    container_name: minimes-api
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DATABASE_URL: "Data Source=minimes.db"
+    volumes:
+      - ./MiniMES.Api:/app
+      - ./minimes.db:/app/minimes.db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - minimes-network
+
+  # React Frontend
+  minimes-client:
+    build:
+      context: ./MiniMES.Client
+      dockerfile: Dockerfile
+    container_name: minimes-client
+    ports:
+      - "3000:3000"
+    depends_on:
+      minimes-api:
+        condition: service_healthy
+    environment:
+      VITE_API_URL: http://localhost:5000
+    networks:
+      - minimes-network
+
+networks:
+  minimes-network:
+    driver: bridge
+
+volumes:
+  minimes-data:

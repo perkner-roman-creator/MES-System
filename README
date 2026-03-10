@@ -1,0 +1,31 @@
+﻿# 🏭 MES System - Moderní fullstack aplikace pro řízení výroby, správu zakázek a monitoring provozu.
+
+## Backend
+- **ASP.NET Core 8.0** - REST API a aplikační logika
+- **C#** - serverová část
+- **Entity Framework Core** - práce s databází
+- **SQLite / SQL Server** - databázové úložiště (dev/prod)
+- **JWT Authentication** - přihlášení a role
+
+## Frontend
+- **React 18** - moderní uživatelské rozhraní
+- **JavaScript (ES6+)** - klientská logika
+- **Vite** - rychlý build a dev server
+- **CSS3** - responzivní styling
+
+## ✨ Funkce
+- **Přehled výroby** - Kontrola stavu zakázek a výkonu
+- **Správa výrobních zakázek** - vytvoření, editace, prioritizace, sledování průběhu
+- **Správa strojů** - evidence zařízení, status a dostupnost
+- **Správa pracovníků** - pracovní role, přiřazení a dostupnost
+- **Výrobní logy** - historie událostí a audit průběhu výroby
+- **Role uživatelů** - Admin, Manager, Operátor
+- **REST API** - komunikace klient/server a integrace
+- **Responzivní rozhraní** - desktop i mobil
+
+## 📋 Hlavní části
+1. **MiniMES.Api** - backend API, business logika a data vrstva
+2. **MiniMES.Client** - React aplikace pro uživatele
+3. **MiniMES.Tests** - unit testy a ověření logiky
+4. **Data/Migrations** - databázový model a migrace
+5. **Dokumentace** - setup, deployment, status, optimalizace

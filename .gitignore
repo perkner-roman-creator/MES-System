@@ -1,0 +1,40 @@
+# Ignore build outputs
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.pdb
+
+# Ignore user-specific files
+*.user
+*.suo
+*.cache
+.vs/
+
+# Ignore database files
+*.db
+*.db-shm
+*.db-wal
+
+# Ignore logs
+*.log
+
+# Ignore dependencies
+node_modules/
+dist/
+build/
+
+# Ignore environment files
+.env
+.env.local
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
